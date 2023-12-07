@@ -227,7 +227,7 @@ int CScan(int requests[], int initial_pos)
 
     int closest = INT_MAX;
     for(int i = 0; i < NUM_REQUESTS; i++){
-        if(closest < abs(new_requests[i] - current_pos))
+        if(closest > abs(new_requests[i] - current_pos))
             closest = abs(new_requests[i] - current_pos);
     }
 
