@@ -45,9 +45,9 @@ int main(int argc, char *argv[])
 
     printf("Total head movement for FCFS: %d\n", Fcfs(requests, initial_pos));
     printf("Total head movement for SSTF: %d\n", Sstf(requests, initial_pos));
-    printf("Total head movement for SCAN: %d\n", Scan(requests, initial_pos));
+    //printf("Total head movement for SCAN: %d\n", Scan(requests, initial_pos));
     //printf("Total head movement for C-SCAN: %d\n", CScan(requests, initial_pos));
-    //printf("Total head movement for Look: %d\n", Look(requests, initial_pos));
+    printf("Total head movement for Look: %d\n", Look(requests, initial_pos));
     //printf("Total head movement for C-Look: %d\n", CLook(requests, initial_pos));
 
     return 0;
@@ -133,19 +133,6 @@ int Scan(int requests[], int initial_pos)
 
 
 
-int compare(const void *a, const void *b){
-    
-    int *x = (int*) a;
-    int *y = (int*) b;
-
-    return *x-*y;
-}
-
- 
-
-
-
-
 int Look(int requests[], int initial_pos){
     int movement_count = 0;
     int current_pos = initial_pos;
@@ -165,6 +152,7 @@ int Look(int requests[], int initial_pos){
             closest = abs(new_requests[i] - current_pos);
             current_pos = i;
     }
+    printf("inital position: %d\n", initial_pos);
     for(int i = current_pos; i < NUM_REQUESTS; i++){
         movement_count += abs(current_pos - new_requests[i]);
         current_pos = new_requests[i];
@@ -175,8 +163,13 @@ int Look(int requests[], int initial_pos){
         current_pos = new_requests[i];
         new_requests[i] = -1;
     }
-    
-
-
     return movement_count;
+}
+
+int compare(const void *a, const void *b){
+    
+    int *x = (int*) a;
+    int *y = (int*) b;
+
+    return *x-*y;
 }
