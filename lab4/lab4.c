@@ -146,19 +146,18 @@ int Look(int requests[], int initial_pos){
     qsort(new_requests,NUM_REQUESTS,sizeof(int),compare);
     
     int closest = 5000;
-    
+    int index;
     for(int i = 0; i < NUM_REQUESTS; i++){
         if(closest < abs(new_requests[i] - current_pos))
             closest = abs(new_requests[i] - current_pos);
-            current_pos = i;
+            index = i;
     }
-    printf("inital position: %d\n", initial_pos);
-    for(int i = current_pos; i < NUM_REQUESTS; i++){
+    for(int i = index; i < NUM_REQUESTS; i++){
         movement_count += abs(current_pos - new_requests[i]);
         current_pos = new_requests[i];
         new_requests[i] = -1;
     }
-    for(int i = current_pos-1; i >= 0; i--){
+    for(int i = index-1; i >= 0; i--){
         movement_count += abs(current_pos - new_requests[i]);
         current_pos = new_requests[i];
         new_requests[i] = -1;
