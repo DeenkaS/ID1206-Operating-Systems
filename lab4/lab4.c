@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
+#include <time.h>
 
 #define NUM_CYLINDERS 5000
 #define NUM_REQUESTS 1000
@@ -13,8 +14,11 @@ int CScan(int requests[], int initial_pos);
 int Look(int requests[], int initial_pos);
 int CLook(int requests[], int initial_pos);
 
+int compare(const void *a, const void *b); //Compare function for q-sort
+
 int main(int argc, char *argv[])
 {
+    srand(time(0));
 
     if (argc < 2)
     {
@@ -42,9 +46,9 @@ int main(int argc, char *argv[])
     printf("Total head movement for FCFS: %d\n", Fcfs(requests, initial_pos));
     printf("Total head movement for SSTF: %d\n", Sstf(requests, initial_pos));
     printf("Total head movement for SCAN: %d\n", Scan(requests, initial_pos));
-    printf("Total head movement for C-SCAN: %d\n", CScan(requests, initial_pos));
-    printf("Total head movement for Look: %d\n", Look(requests, initial_pos));
-    printf("Total head movement for C-Look: %d\n", CLook(requests, initial_pos));
+    //printf("Total head movement for C-SCAN: %d\n", CScan(requests, initial_pos));
+    //printf("Total head movement for Look: %d\n", Look(requests, initial_pos));
+    //printf("Total head movement for C-Look: %d\n", CLook(requests, initial_pos));
 
     return 0;
 }
@@ -104,6 +108,9 @@ int Scan(int requests[], int initial_pos)
     int current_pos = initial_pos;
     int new_requests[NUM_REQUESTS];
     int candidate = 0;
+    
+    qsort(requests,NUM_REQUESTS,sizeof(int),compare);
+    
     for(int i = 0; i < NUM_REQUESTS; i++){
         new_requests[i] = requests[i];
     }
@@ -112,5 +119,16 @@ int Scan(int requests[], int initial_pos)
         
     }
 
+
     return movement_count;
+}
+
+
+
+int compare(const void *a, const void *b){
+    
+    int *x = (int*) a;
+    int *y = (int*) b;
+
+    return *x-*y;
 }
