@@ -109,15 +109,23 @@ int Scan(int requests[], int initial_pos)
     int new_requests[NUM_REQUESTS];
     int candidate = 0;
     
-    qsort(requests,NUM_REQUESTS,sizeof(int),compare);
     
     for(int i = 0; i < NUM_REQUESTS; i++){
         new_requests[i] = requests[i];
     }
-    int closest;
+    
+    qsort(new_requests,NUM_REQUESTS,sizeof(int),compare);
+    
+    int closest = 5000;
+    int starting_space = 0;
+
     for(int i = 0; i < NUM_REQUESTS; i++){
-        
+        if(closest < abs(new_requests[i] - current_pos))
+            closest = abs(new_requests[i] - current_pos);
+            starting_space = i;
     }
+
+    
 
 
     return movement_count;
