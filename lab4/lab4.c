@@ -140,3 +140,43 @@ int compare(const void *a, const void *b){
 
     return *x-*y;
 }
+
+ 
+
+
+
+
+int Look(int requests[], int initial_pos){
+    int movement_count = 0;
+    int current_pos = initial_pos;
+    int new_requests[NUM_REQUESTS];
+    int candidate = 0;
+    
+    for(int i = 0; i < NUM_REQUESTS; i++){
+        new_requests[i] = requests[i];
+    }
+    
+    qsort(new_requests,NUM_REQUESTS,sizeof(int),compare);
+    
+    int closest = 5000;
+    
+    for(int i = 0; i < NUM_REQUESTS; i++){
+        if(closest < abs(new_requests[i] - current_pos))
+            closest = abs(new_requests[i] - current_pos);
+            current_pos = i;
+    }
+    for(int i = current_pos; i < NUM_REQUESTS; i++){
+        movement_count += abs(current_pos - new_requests[i]);
+        current_pos = new_requests[i];
+        new_requests[i] = -1;
+    }
+    for(int i = current_pos-1; i >= 0; i--){
+        movement_count += abs(current_pos - new_requests[i]);
+        current_pos = new_requests[i];
+        new_requests[i] = -1;
+    }
+    
+
+
+    return movement_count;
+}
