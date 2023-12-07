@@ -45,10 +45,10 @@ int main(int argc, char *argv[])
 
     printf("Total head movement for FCFS: %d\n", Fcfs(requests, initial_pos));
     printf("Total head movement for SSTF: %d\n", Sstf(requests, initial_pos));
-    //printf("Total head movement for SCAN: %d\n", Scan(requests, initial_pos));
-    //printf("Total head movement for C-SCAN: %d\n", CScan(requests, initial_pos));
+    printf("Total head movement for SCAN: %d\n", Scan(requests, initial_pos));
+    printf("Total head movement for C-SCAN: %d\n", CScan(requests, initial_pos));
     printf("Total head movement for Look: %d\n", Look(requests, initial_pos));
-    //printf("Total head movement for C-Look: %d\n", CLook(requests, initial_pos));
+    printf("Total head movement for C-Look: %d\n", CLook(requests, initial_pos));
 
     return 0;
 }
@@ -144,26 +144,61 @@ int Look(int requests[], int initial_pos){
     qsort(new_requests,NUM_REQUESTS,sizeof(int),compare);
     
     int closest = 5000;
-    
+    int index;
     for(int i = 0; i < NUM_REQUESTS; i++){
         if(closest < abs(new_requests[i] - current_pos))
             closest = abs(new_requests[i] - current_pos);
-            current_pos = i;
+            index = i;
     }
-    printf("inital position: %d\n", initial_pos);
-    for(int i = current_pos; i < NUM_REQUESTS; i++){
+    for(int i = index; i < NUM_REQUESTS; i++){
         movement_count += abs(current_pos - new_requests[i]);
         current_pos = new_requests[i];
         new_requests[i] = -1;
     }
-    for(int i = current_pos-1; i >= 0; i--){
-        movement_count += abs(current_pos - new_requests[i]);
-        current_pos = new_requests[i];
-        new_requests[i] = -1;
+    if(new_requests[0] < initial_pos){
+        for(int i = index-1; i >= 0; i--){
+            movement_count += abs(current_pos - new_requests[i]);
+            current_pos = new_requests[i];
+            new_requests[i] = -1;
+        }
     }
     return movement_count;
 }
+int CLook(int requests[], int initial_pos){
+    int movement_count = 0;
+    int current_pos = initial_pos;
+    int new_requests[NUM_REQUESTS];
+    int candidate = 0;
+    
+    for(int i = 0; i < NUM_REQUESTS; i++){
+        new_requests[i] = requests[i];
+    }
+    
+    qsort(new_requests,NUM_REQUESTS,sizeof(int),compare);
+    
+    int closest = 5000;
+    int index;
+    for(int i = 0; i < NUM_REQUESTS; i++){
+        if(closest < abs(new_requests[i] - current_pos))
+            closest = abs(new_requests[i] - current_pos);
+            index = i;
+    }
 
+    for(int i = index; i < NUM_REQUESTS; i++){
+        movement_count += abs(current_pos - new_requests[i]);
+        current_pos = new_requests[i];
+        new_requests[i] = -1;
+    }
+    if(new_requests[0] < initial_pos){
+
+    for(int i = 0; i < index; i++){
+        movement_count += abs(current_pos - new_requests[i]);
+        current_pos = new_requests[i];
+        new_requests[i] = -1;
+    }
+    }
+    return movement_count;
+}
 int compare(const void *a, const void *b){
     
     int *x = (int*) a;
