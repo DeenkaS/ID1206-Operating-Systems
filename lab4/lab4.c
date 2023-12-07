@@ -121,6 +121,7 @@ int Scan(int requests[], int initial_pos)
     }
 
     movement_count += abs(current_pos - 4999);
+    if(initial_pos > min)
     movement_count += abs(4999-min);
 
 
