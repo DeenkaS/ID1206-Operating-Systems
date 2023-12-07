@@ -63,7 +63,7 @@ int Fcfs(int requests[], int initial_pos)
     return movement_count;
 }
 
-Sstf(int requests[], int initial_pos)
+int Sstf(int requests[], int initial_pos)
 {
     int movement_count = 0;
     int current_pos = initial_pos;
@@ -80,4 +80,9 @@ Sstf(int requests[], int initial_pos)
             new_requests[i] = requests[candidate];
         }
     }
+
+    //NOT FINISHED
+    //...
+
+    return movement_count;
 }
