@@ -41,10 +41,10 @@ int main(int argc, char *argv[])
 
     printf("Total head movement for FCFS: %d\n", Fcfs(requests, initial_pos));
     printf("Total head movement for SSTF: %d\n", Sstf(requests, initial_pos));
-    // printf("Total head movement for SCAN: %d\n", Scan(requests, initial_pos));
-    // printf("Total head movement for C-SCAN: %d\n", CScan(requests, initial_pos));
-    // printf("Total head movement for Look: %d\n", Look(requests, initial_pos));
-    // printf("Total head movement for C-Look: %d\n", CLook(requests, initial_pos));
+    printf("Total head movement for SCAN: %d\n", Scan(requests, initial_pos));
+    printf("Total head movement for C-SCAN: %d\n", CScan(requests, initial_pos));
+    printf("Total head movement for Look: %d\n", Look(requests, initial_pos));
+    printf("Total head movement for C-Look: %d\n", CLook(requests, initial_pos));
 
     return 0;
 }
@@ -67,22 +67,50 @@ int Sstf(int requests[], int initial_pos)
 {
     int movement_count = 0;
     int current_pos = initial_pos;
-    int passes = 0;
     int new_requests[NUM_REQUESTS];
-    int candidate = 0;
+    int shortest_distance, shortest_index;
 
-    for(int i = 0; i < NUM_REQUESTS; i++)
-    for (int j = 0; j < NUM_REQUESTS; j++)
-    {
-        candidate = 5000;
-        if (abs(candidate - initial_pos) > abs(requests[j]- initial_pos))
-        {
-            new_requests[i] = requests[candidate];
-        }
+    // Copy requests to new_requests
+    for (int i = 0; i < NUM_REQUESTS; i++){
+        new_requests[i] = requests[i];
     }
 
-    //NOT FINISHED
-    //...
+    for (int i = 0; i < NUM_REQUESTS; i++){
+        shortest_distance = INT_MAX;
+
+        // Find request with shortest distance
+        for (int j = 0; j < NUM_REQUESTS; j++){
+            int distance = abs(current_pos - new_requests[j]);
+            if (new_requests[j] != -1 && distance < shortest_distance){
+                shortest_distance = distance;
+                shortest_index = j;
+            }
+        }
+
+        // Add shortest distance to movement count
+        movement_count += shortest_distance;
+        // Update current position
+        current_pos = new_requests[shortest_index];
+        // Mark request as processed
+        new_requests[shortest_index] = -1;
+    }
+
+    return movement_count;
+}
+
+int Scan(int requests[], int initial_pos)
+{
+    int movement_count = 0;
+    int current_pos = initial_pos;
+    int new_requests[NUM_REQUESTS];
+    int candidate = 0;
+    for(int i = 0; i < NUM_REQUESTS; i++){
+        new_requests[i] = requests[i];
+    }
+    int closest;
+    for(int i = 0; i < NUM_REQUESTS; i++){
+        
+    }
 
     return movement_count;
 }
