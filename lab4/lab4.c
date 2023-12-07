@@ -164,6 +164,49 @@ int Look(int requests[], int initial_pos){
     return movement_count;
 }
 
+int CScan(int requests[], int initial_pos)
+{
+    int movement_count = 0;
+    int current_pos = initial_pos;
+    int new_requests[NUM_REQUESTS];
+    
+    int min = 5000;
+    
+    for(int i = 0; i < NUM_REQUESTS; i++){
+        new_requests[i] = requests[i];
+    }
+
+    for(int i = 0; i < NUM_REQUESTS; i++){
+        if(min > new_requests[i]){
+            min = new_requests[i];
+        }
+    }
+
+    int max = 0;
+    for(int i = 0; i < NUM_REQUESTS; i++){
+        if(max < new_requests[i]){
+            max = new_requests[i];
+        }
+    }
+
+    int closest = INT_MAX;
+    for(int i = 0; i < NUM_REQUESTS; i++){
+        if(closest < abs(new_requests[i] - current_pos))
+            closest = abs(new_requests[i] - current_pos);
+    }
+
+    movement_count += abs(current_pos - 4999);
+     
+    if(initial_pos > min){
+    movement_count += 4999;
+    movement_count += closest;
+    }
+
+
+
+    return movement_count;
+}
+
 int compare(const void *a, const void *b){
     
     int *x = (int*) a;
